@@ -1,0 +1,17 @@
+{
+    "name": "template-nodejs-transactions-api-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start:client": "cd client && pnpm install && pnpm run dev",
+        "start:server": "cd server && pnpm install && pnpm exec ./node_modules/.bin/nodemon server.ts",
+        "start": "concurrently \"pnpm run start:server\" \"pnpm run start:client\""
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}
