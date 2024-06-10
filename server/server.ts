@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
-import {ethers} from 'ethers'
+import { ethers } from 'ethers'
 import { Session, SessionSettings } from '@0xsequence/auth'
 import { networks, findSupportedNetwork, toChainIdNumber, NetworkConfig } from '@0xsequence/network'
 
@@ -20,31 +20,14 @@ const callContract = async (address: string, tokenID: number): Promise<ethers.pr
 	const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
 	const provider = new ethers.providers.StaticJsonRpcProvider({
 		url: chainConfig.rpcUrl, 
-		skipFetchSetup: true // Required for ethers.js Cloudflare Worker support
+		skipFetchSetup: true
 	})
 
 	const walletEOA = new ethers.Wallet(process.env.PKEY!, provider);
 	const relayerUrl = `https://${chainConfig.name}-relayer.sequence.app`
 
-	// Open a Sequence session, this will find or create
-	// a Sequence wallet controlled by your server EOA
-	const settings: Partial<SessionSettings> = {
-		networks: [{
-			...networks[chainConfig.chainId],
-			rpcUrl: chainConfig.rpcUrl,
-			provider: provider, // NOTE: must pass the provider here
-			relayer: {
-				url: relayerUrl,
-				provider: {
-					url: chainConfig.rpcUrl
-				}
-			}
-		}],
-	}
-
 	// Create a single signer sequence wallet session
 	const session = await Session.singleSigner({
-		settings: settings,
 		signer: walletEOA,
 		projectAccessKey: process.env.PROJECT_ACCESS_KEY!
 	})
@@ -56,13 +39,12 @@ const callContract = async (address: string, tokenID: number): Promise<ethers.pr
 		'function mint(address to, uint256 tokenId, uint256 amount, bytes data)'
 	])
 		
-    console.log([`${address}`, `${tokenID}`, "1", "0x00"])
 	const data = collectibleInterface.encodeFunctionData(
 		'mint', [`${address}`, `${tokenID}`, "1", "0x00"]
 	)
 
 	const txn = {
-		to: process.env.CONTRACT_ADDRESS, 
+		to: process.env.COLLECTIBLE_CONTRACT_ADDRESS, 
 		data: data
 	}
 
