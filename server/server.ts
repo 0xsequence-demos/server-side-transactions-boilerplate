@@ -19,8 +19,7 @@ const callContract = async (address: string, tokenID: number): Promise<ethers.pr
 	
 	const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
 	const provider = new ethers.providers.StaticJsonRpcProvider({
-		url: chainConfig.rpcUrl, 
-		skipFetchSetup: true
+		url: chainConfig.rpcUrl
 	})
 
 	const walletEOA = new ethers.Wallet(process.env.PKEY!, provider);
