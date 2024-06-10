@@ -1,5 +1,5 @@
 # template-nodejs-transactions-api-backend
-a simple backend that relayers transactions via an API from a restricted origin frontend
+a simple backend that relays transactions via an API from a restricted origin frontend
 
 ## how to
 1. install pnpm with the command `curl -fsSL https://get.pnpm.io/install.sh | sh -`
