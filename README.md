@@ -10,4 +10,5 @@ a simple backend that relays transactions via an API from a restricted origin fr
 - `PROJECT_ACCESS_KEY`: use [this walkthrough](https://docs.sequence.xyz/solutions/builder/getting-started#claim-an-api-access-key) to acquire an access key 
 - `COLLECTIBLE_CONTRACT_ADDRESS`: from sequence builder deployed contract using this [guide](https://docs.sequence.xyz/solutions/collectibles/contracts/deploy-an-item-collection/)
 
-3. `pnpm run start`
+3. `pnpm run install`
+4. `pnpm run start`
