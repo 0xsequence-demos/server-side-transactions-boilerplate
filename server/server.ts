@@ -2,8 +2,8 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import { ethers } from 'ethers'
-import { Session, SessionSettings } from '@0xsequence/auth'
-import { networks, findSupportedNetwork, toChainIdNumber, NetworkConfig } from '@0xsequence/network'
+import { Session } from '@0xsequence/auth'
+import { findSupportedNetwork, NetworkConfig } from '@0xsequence/network'
 
 const PORT = 3000
 const app = express()
