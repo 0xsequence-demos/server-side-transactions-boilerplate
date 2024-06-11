@@ -2,8 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import { ethers } from 'ethers'
-import { Session } from '@0xsequence/auth'
-import { findSupportedNetwork, NetworkConfig } from '@0xsequence/network'
+// TODO: imports
 
 const PORT = 3000
 const app = express()
@@ -16,39 +15,8 @@ app.use(express.json());
 app.use(cors(corsOptions))
 
 const callContract = async (address: string, tokenID: number): Promise<ethers.providers.TransactionResponse> => {
-	
-	const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
-	const provider = new ethers.providers.StaticJsonRpcProvider({
-		url: chainConfig.rpcUrl
-	})
-
-	const walletEOA = new ethers.Wallet(process.env.PKEY!, provider);
-	const relayerUrl = `https://${chainConfig.name}-relayer.sequence.app`
-
-	// Create a single signer sequence wallet session
-	const session = await Session.singleSigner({
-		signer: walletEOA,
-		projectAccessKey: process.env.PROJECT_ACCESS_KEY!
-	})
-
-	const signer = session.account.getSigner(chainConfig.chainId)
-	
-	// Standard interface for ERC1155 contract deployed via Sequence Builder
-	const collectibleInterface = new ethers.utils.Interface([
-		'function mint(address to, uint256 tokenId, uint256 amount, bytes data)'
-	])
-		
-	const data = collectibleInterface.encodeFunctionData(
-		'mint', [`${address}`, `${tokenID}`, "1", "0x00"]
-	)
-
-	const txn = {
-		to: process.env.COLLECTIBLE_CONTRACT_ADDRESS, 
-		data: data
-	}
-
 	try {
-		return await signer.sendTransaction(txn)
+		return {} as ethers.providers.TransactionResponse
 	} catch (err) {
 		console.error(`ERROR: ${err}`)
 		throw err
@@ -58,8 +26,10 @@ const callContract = async (address: string, tokenID: number): Promise<ethers.pr
 app.post('/mint', async (req: any,res: any) => {
     try{
         const {address, tokenID} = req.body
-        const result = await callContract(address,tokenID)
-        res.send({txHash: result.hash})
+
+        // TODO: call contract
+
+        res.send({txHash: '0x'})
     }catch(err){
         console.log(err)
         res.sendStatus(500)
