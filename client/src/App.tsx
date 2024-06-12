@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react'
 import './App.css'
-import { Button, Spinner } from '@0xsequence/design-system'
+import { Button, Spinner, Box, Image } from '@0xsequence/design-system'
 import {sequence} from '0xsequence'
 import {ethers} from 'ethers'
+import sequenceIconSrc from "./assets/sequence-icon.svg";
 
 const SERVER_URL = 'http://localhost:3000'
 
@@ -52,22 +53,37 @@ function App() {
 
   return (
     <>
-     <p></p>
-     <div className="center-container">
-      {!txHash ? (
-        !address ? (
-          <Button onClick={() => signIn()} label="Sign In" />
-        ) : isMinting ? (
-          <Spinner />
+      <Box
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        gap="5"
+        paddingTop={'12'}
+        >
+        <Image
+          src={sequenceIconSrc}
+          alt="Sequence Logo"
+          style={{
+            width: "150px"
+          }}
+        />
+      </Box>
+      <p>Nodejs & Express Transactions API Template</p>
+      <div className="center-container">
+        {!txHash ? (
+          !address ? (
+            <Button onClick={() => signIn()} label="Sign In" />
+          ) : isMinting ? (
+            <Spinner />
+          ) : (
+            <Button label="Mint" onClick={() => mint()} />
+          )
         ) : (
-          <Button label="Mint" onClick={() => mint()} />
-        )
-      ) : (
-        <a href={`https://xr-sepolia-testnet.explorer.caldera.xyz/tx/${txHash}`} target="_blank">
-          View Transaction
-        </a>
-      )}
-    </div>
+          <a href={`https://xr-sepolia-testnet.explorer.caldera.xyz/tx/${txHash}`} target="_blank">
+            View Transaction
+          </a>
+        )}
+      </div>
     </>
   )
 }
