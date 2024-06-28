@@ -1,6 +1,9 @@
 # template-nodejs-transactions-api-backend
 a simple backend that relays transactions via an API from a restricted origin frontend
 
+## deploy now
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/ERJVm2)
+
 ## how to
 1. install pnpm with the command `curl -fsSL https://get.pnpm.io/install.sh | sh -`
 
