@@ -4,9 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start:client": "cd client && pnpm install && pnpm run dev",
-        "start:server": "cd server && pnpm install && pnpm exec ./node_modules/.bin/nodemon server.ts",
-        "start": "concurrently \"pnpm run start:server\" \"pnpm run start:client\""
+        "start:client": "cd client && npm install && npm run dev",
+        "start:server": "cd server && npm install && npm exec ./node_modules/.bin/nodemon server.ts",
+        "start": "concurrently \"npm run start:server\" \"npm run start:client\""
     },
     "keywords": [],
     "author": "",
