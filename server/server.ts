@@ -15,6 +15,14 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions))
 
+const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
+const provider = new ethers.providers.StaticJsonRpcProvider({
+	url: chainConfig.rpcUrl
+})
+
+const walletEOA = ethers.Wallet.createRandom()
+const relayerUrl = `https://${chainConfig.name}-relayer.sequence.app`
+
 const callContract = async (address: string, tokenID: number): Promise<ethers.providers.TransactionResponse> => {
 	
 	const signer = await getSigner()
@@ -42,14 +50,6 @@ const callContract = async (address: string, tokenID: number): Promise<ethers.pr
 }
 
 const getSigner = async () => {
-	const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
-	const provider = new ethers.providers.StaticJsonRpcProvider({
-		url: chainConfig.rpcUrl
-	})
-
-	const walletEOA = ethers.Wallet.createRandom()
-	const relayerUrl = `https://${chainConfig.name}-relayer.sequence.app`
-
 	try {
 		// Create a single signer sequence wallet session
 		const session = await Session.singleSigner({
