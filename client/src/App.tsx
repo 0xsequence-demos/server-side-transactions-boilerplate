@@ -5,12 +5,13 @@ import {sequence} from '0xsequence'
 import {ethers} from 'ethers'
 import sequenceIconSrc from "./assets/sequence-icon.svg";
 
-const SERVER_URL = 'http://localhost:3000'
+const SERVER_URL = 'https://nodejs-transactions-api-production.up.railway.app'
 
 function App() {
   const [address, setAdddress] = useState<any>(null)
   const [txHash, setTxHash] = useState<any>(null)
   const [isMinting, setIsMinting] = useState<any>(false)
+  const [minterAddress, setMinterAddress] = useState<any>('')
 
   sequence.initWallet('AQAAAAAAAHqkl2N_0qmev_ZM-i_L3bsMn1Y', {defaultNetwork: 'xr-sepolia'})
 
@@ -51,6 +52,23 @@ function App() {
 
   }, [txHash, isMinting])
 
+  useEffect(() => {
+    setTimeout(async () => {
+      try{
+        const response = await fetch(`${SERVER_URL}/minterAddress`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        });
+        const data = await response.json();
+        setMinterAddress(data.address)
+      }catch(err){
+        alert(err)
+      }
+    }, 0)
+  }, [])
+
   return (
     <>
       <Box
@@ -69,6 +87,7 @@ function App() {
         />
       </Box>
       <p>Nodejs & Express Transactions API Template</p>
+      <p>Minter Address: {minterAddress}</p>
       <div className="center-container">
         {!txHash ? (
           !address ? (
