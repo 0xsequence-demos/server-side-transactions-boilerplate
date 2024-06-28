@@ -5,7 +5,7 @@ import {sequence} from '0xsequence'
 import {ethers} from 'ethers'
 import sequenceIconSrc from "./assets/sequence-icon.svg";
 
-const SERVER_URL = 'https://nodejs-transactions-api-production.up.railway.app'
+const SERVER_URL = 'https://nodejs-transactions-api-production-aeaf.up.railway.app'
 
 function App() {
   const [address, setAdddress] = useState<any>(null)
