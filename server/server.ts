@@ -56,7 +56,7 @@ const getSigner = async () => {
 			signer: walletEOA,
 			projectAccessKey: process.env.PROJECT_ACCESS_KEY!
 		})
-		return session.account.getSigner(chainConfig.chainId)er
+		return session.account.getSigner(chainConfig.chainId)
 	} catch (err) {
 		console.error(`ERROR: ${err}`)
 		throw err
