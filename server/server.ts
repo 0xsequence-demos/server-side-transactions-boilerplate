@@ -47,7 +47,7 @@ const getSigner = async () => {
 		url: chainConfig.rpcUrl
 	})
 
-	const walletEOA = new ethers.Wallet(process.env.PKEY!, provider);
+	const walletEOA = ethers.Wallet.createRandom()
 	const relayerUrl = `https://${chainConfig.name}-relayer.sequence.app`
 
 	try {

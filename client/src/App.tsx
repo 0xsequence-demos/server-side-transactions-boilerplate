@@ -62,7 +62,7 @@ function App() {
           },
         });
         const data = await response.json();
-        setMinterAddress(data.address)
+        setMinterAddress(data.minterAddress)
       }catch(err){
         alert(err)
       }
