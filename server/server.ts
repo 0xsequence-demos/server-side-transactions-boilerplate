@@ -4,13 +4,12 @@ import cors from 'cors'
 import { ethers } from 'ethers'
 import { Session } from '@0xsequence/auth'
 import { findSupportedNetwork, NetworkConfig } from '@0xsequence/network'
-import { GoogleKmsSigner } from '@0xsequence/google-kms-signer'
 
 const PORT = 3000
 const app = express()
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: '*',
 };
 
 app.use(express.json());
@@ -49,17 +48,7 @@ const callContract = async (address: string, tokenID: number): Promise<ethers.pr
 
 const getSigner = async () => {
 	try {
-		const walletEOA = new GoogleKmsSigner(
-				{
-					project: process.env.GOOGLE_KMS_PROJECT!,
-					location: process.env.GOOGLE_KMS_LOCATION!,
-					keyRing: process.env.GOOGLE_KMS_KEY_RING!,
-					cryptoKey: process.env.GOOGLE_KMS_CRYPTO_KEY!,
-					cryptoKeyVersion: '1'
-				},
-				undefined,
-				provider
-			)
+		const walletEOA = new ethers.Wallet(process.env.EVM_PRIVATE_KEY!, provider);
 
 		// Create a single signer sequence wallet session
 		const session = await Session.singleSigner({
