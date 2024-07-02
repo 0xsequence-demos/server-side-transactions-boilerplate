@@ -64,8 +64,8 @@ const getSigner = async () => {
 
 app.post('/mint', async (req: any,res: any) => {
     try{
-        const {address, tokenID} = req.body
-        const result = await callContract(address,tokenID)
+        const {evmAddress, tokenID} = req.body
+        const result = await callContract(evmAddress,tokenID)
         res.send({txHash: result.hash})
     }catch(err){
         console.log(err)
