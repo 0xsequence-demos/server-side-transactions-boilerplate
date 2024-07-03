@@ -5,7 +5,7 @@ import {sequence} from '0xsequence'
 import {ethers} from 'ethers'
 import sequenceIconSrc from "./assets/sequence-icon.svg";
 
-const SERVER_URL = 'https://nodejs-transactions-api-production-aeaf.up.railway.app'
+const SERVER_URL = 'http://localhost:3000'
 
 function App() {
   const [address, setAdddress] = useState<any>(null)
@@ -36,7 +36,7 @@ function App() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({tokenID, address})
+        body: JSON.stringify({tokenID, evmAddress: address})
       });
   
       const data = await response.json();
