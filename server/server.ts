@@ -9,29 +9,20 @@ const PORT = 3000
 const app = express()
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: '*',
 };
 
 app.use(express.json());
 app.use(cors(corsOptions))
 
+const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
+const provider = new ethers.providers.StaticJsonRpcProvider({
+	url: chainConfig.rpcUrl
+})
+
 const callContract = async (address: string, tokenID: number): Promise<ethers.providers.TransactionResponse> => {
 	
-	const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
-	const provider = new ethers.providers.StaticJsonRpcProvider({
-		url: chainConfig.rpcUrl
-	})
-
-	const walletEOA = new ethers.Wallet(process.env.PKEY!, provider);
-	const relayerUrl = `https://${chainConfig.name}-relayer.sequence.app`
-
-	// Create a single signer sequence wallet session
-	const session = await Session.singleSigner({
-		signer: walletEOA,
-		projectAccessKey: process.env.PROJECT_ACCESS_KEY!
-	})
-
-	const signer = session.account.getSigner(chainConfig.chainId)
+	const signer = await getSigner()
 	
 	// Standard interface for ERC1155 contract deployed via Sequence Builder
 	const collectibleInterface = new ethers.utils.Interface([
@@ -55,11 +46,37 @@ const callContract = async (address: string, tokenID: number): Promise<ethers.pr
 	}
 }
 
+const getSigner = async () => {
+	try {
+		const walletEOA = new ethers.Wallet(process.env.EVM_PRIVATE_KEY!, provider);
+
+		// Create a single signer sequence wallet session
+		const session = await Session.singleSigner({
+			signer: walletEOA,
+			projectAccessKey: process.env.PROJECT_ACCESS_KEY!
+		})
+		return session.account.getSigner(chainConfig.chainId)
+	} catch (err) {
+		console.error(`ERROR: ${err}`)
+		throw err
+	}
+}
+
 app.post('/mint', async (req: any,res: any) => {
     try{
-        const {address, tokenID} = req.body
-        const result = await callContract(address,tokenID)
+        const {evmAddress, tokenID} = req.body
+        const result = await callContract(evmAddress,tokenID)
         res.send({txHash: result.hash})
+    }catch(err){
+        console.log(err)
+        res.sendStatus(500)
+    }
+})
+
+app.get('/minterAddress', async (req: any,res: any) => {
+    try{
+        const signer = await getSigner()
+        res.send({minterAddress: await signer.getAddress()})
     }catch(err){
         console.log(err)
         res.sendStatus(500)

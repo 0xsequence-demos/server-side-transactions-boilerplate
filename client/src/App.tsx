@@ -11,6 +11,7 @@ function App() {
   const [address, setAdddress] = useState<any>(null)
   const [txHash, setTxHash] = useState<any>(null)
   const [isMinting, setIsMinting] = useState<any>(false)
+  const [minterAddress, setMinterAddress] = useState<any>('')
 
   sequence.initWallet('AQAAAAAAAHqkl2N_0qmev_ZM-i_L3bsMn1Y', {defaultNetwork: 'xr-sepolia'})
 
@@ -35,7 +36,7 @@ function App() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({tokenID, address})
+        body: JSON.stringify({tokenID, evmAddress: address})
       });
   
       const data = await response.json();
@@ -50,6 +51,23 @@ function App() {
   useEffect(() => {
 
   }, [txHash, isMinting])
+
+  useEffect(() => {
+    setTimeout(async () => {
+      try{
+        const response = await fetch(`${SERVER_URL}/minterAddress`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        });
+        const data = await response.json();
+        setMinterAddress(data.minterAddress)
+      }catch(err){
+        alert(err)
+      }
+    }, 0)
+  }, [])
 
   return (
     <>
@@ -69,6 +87,7 @@ function App() {
         />
       </Box>
       <p>Nodejs & Express Transactions API Template</p>
+      <p>Minter Address: {minterAddress}</p>
       <div className="center-container">
         {!txHash ? (
           !address ? (
