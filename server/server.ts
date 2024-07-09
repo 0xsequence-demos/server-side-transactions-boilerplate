@@ -90,7 +90,6 @@ const callContract = async (evmAddress: string, contractAddress: string, isERC11
 		)
 
 	} else {
-		console.log('else')
 		
 		// Standard interface for ERC1155 contract deployed via Sequence Builder
 		collectibleInterface = new ethers.utils.Interface([
