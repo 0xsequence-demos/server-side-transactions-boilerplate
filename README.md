@@ -2,7 +2,7 @@
 a simple backend that relays transactions via an API from a restricted origin frontend
 
 ## Deploy a Template
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/ERJVm2)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/EzeuAo)
 
 ## How To Run Locally
 1. Install git following the steps here: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
