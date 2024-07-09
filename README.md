@@ -21,7 +21,5 @@ a simple backend that relays transactions via an API from a restricted origin fr
 ```shell
 curl -X POST http://localhost:3000/mint \
 -H "Content-Type: application/json" \
--d '{"evmAddress": "<EVM_WALLET_ADDRESS>", "tokenID": "<TOKEN_ID>", \
-"contractAddress":"<COLLECTIBLE_CONTRACT_ADDRESS", "isERC1155": "<true_OR_false>", \
-"amount":<AMOUNT> }'
+-d '{"evmAddress": "<EVM_WALLET_ADDRESS>", "tokenID": "<TOKEN_ID>", "contractAddress":"<COLLECTIBLE_CONTRACT_ADDRESS", "isERC1155": "<true_OR_false>", "amount":<AMOUNT> }'
 ```
