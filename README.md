@@ -1,4 +1,4 @@
-# tx-manager-boilerplate
+# tx-manager
 a simple backend that relays transactions via an API from a restricted origin frontend
 
 ## 1. Deploy a Template
