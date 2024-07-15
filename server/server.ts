@@ -133,7 +133,7 @@ app.post('/mint', async (req: any,res: any) => {
 		}
 
 		if(
-			!isValidUint256(tokenID)
+			isERC1155 && !isValidUint256(tokenID)
 		)
 		{
 			return res.status(400).send({ error: "Invalid input parameters: 'tokenID'" });
