@@ -5,7 +5,7 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 
 # Copy package.json and pnpm-lock.yaml files to the working directory
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 
 # Install pnpm
 RUN npm install -g pnpm
