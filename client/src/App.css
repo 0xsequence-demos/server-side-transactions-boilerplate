@@ -47,6 +47,6 @@
   display: flex;
   justify-content: center;  /* Centers horizontally */
   align-items: center;      /* Centers vertically */
-  min-height: 40vh;        /* Full viewport height */
+  min-height: 20vh;        /* Full viewport height */
   text-align: center;       /* Centers the text for any text child */
 }

@@ -1,32 +1,32 @@
 import {useState, useEffect} from 'react'
 import './App.css'
-import { Button, Spinner, Box, Image } from '@0xsequence/design-system'
+import { useTheme,Button, Spinner, Box, Image } from '@0xsequence/design-system'
 import {sequence} from '0xsequence'
 import {ethers} from 'ethers'
 import sequenceIconSrc from "./assets/sequence-icon.svg";
 
 const SERVER_URL = 'http://localhost:3000'
+const projectACcessKey = import.meta.env.VITE_PROJECT_ACCESS_KEY || "AQAAAAAAAHqkq694NhWZQdSNJyA6ubOK494"
+const collectibleAddress = import.meta.env.VITE_COLLECTIBLE_ADDRESS || "0x9f00671530137a433d5a775698094e5c68aae996"
 
 function App() {
+  const {setTheme} = useTheme()
   const [address, setAdddress] = useState<any>(null)
   const [txHash, setTxHash] = useState<any>(null)
   const [isMinting, setIsMinting] = useState<any>(false)
   const [minterAddress, setMinterAddress] = useState<any>('')
 
-  sequence.initWallet('AQAAAAAAAHqkl2N_0qmev_ZM-i_L3bsMn1Y', {defaultNetwork: 'xr-sepolia'})
-
+  sequence.initWallet(projectACcessKey, {defaultNetwork: 'xr-sepolia'})
+  // setTheme('light')
   const signIn = async () => {
     const wallet = sequence.getWallet()
-    const details = await wallet.connect({app: 'template nodejs backend'})
+    const details = await wallet.connect({app: 'Tx Manager: NodeJs Transactions API Example'})
     if(details.connected){
       setAdddress(details.session?.accountAddress)
     }
   }
 
   const mint = async () => {
-    const tokenID = ethers.BigNumber.from(
-      ethers.utils.hexlify(ethers.utils.randomBytes(10))
-    ).toString()
 
     setIsMinting(true)
 
@@ -36,10 +36,11 @@ function App() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({tokenID, evmAddress: address})
+        body: JSON.stringify({evmAddress: address, contractAddress: collectibleAddress, isERC1155: false, amount: 1})
       });
   
       const data = await response.json();
+      console.log(data)
       setIsMinting(false)
       setTxHash(data.txHash)
     }catch(err){
@@ -86,16 +87,18 @@ function App() {
           }}
         />
       </Box>
-      <p>Nodejs & Express Transactions API Template</p>
+      <br/>
+      <br/>
+      <p>TX Manager: Nodejs & Express Transactions API Boilerplate</p>
       <p>Minter Address: {minterAddress}</p>
       <div className="center-container">
         {!txHash ? (
           !address ? (
-            <Button onClick={() => signIn()} label="Sign In" />
+            <Button style={{backgroundColor: '#414141', color: 'white'}} onClick={() => signIn()} label="Sign In" />
           ) : isMinting ? (
             <Spinner />
           ) : (
-            <Button label="Mint" onClick={() => mint()} />
+            <Button style={{backgroundColor: '#414141', color: 'white'}}  label="Mint" onClick={() => mint()} />
           )
         ) : (
           <a href={`https://xr-sepolia-testnet.explorer.caldera.xyz/tx/${txHash}`} target="_blank">
