@@ -3,19 +3,19 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "start:client": "cd client && npm install && npm run dev",
-        "start:server:dev": "cd server && npm install && ./node_modules/.bin/nodemon server.ts",
-        "start:server": "cd server && npm install && ./node_modules/.bin/ts-node server.ts",
-        "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-        "start:dev": "concurrently \"npm run start:server:dev\" \"npm run start:client\"",
-        "start:docker": "docker build -t my-tx-manager . && docker run -p 3000:3000 my-tx-manager", 
-        "start:docker:detached": "docker build -t my-tx-manager . && docker run -d -p 3000:3000 my-tx-manager"
+        "start:client": "cd client && pnpm install && pnpm run dev",
+        "start:server:dev": "cd server && pnpm install && ./node_modules/.bin/nodemon server.ts",
+        "start:server": "cd server && pnpm install && ./node_modules/.bin/ts-node server.ts",
+        "start": "concurrently \"pnpm run start:server\" \"pnpm run start:client\"",
+        "start:dev": "concurrently \"pnpm run start:server:dev\" \"pnpm run start:client\"",
+        "test": "concurrently \"pnpm -r test\" \"pnpm run start:server:dev\""
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
         "concurrently": "^8.2.2",
+        "tape": "^5.8.1",
         "ts-node": "^10.4.0"
     }
 }
