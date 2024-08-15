@@ -3,19 +3,16 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "start": "cd server && pnpm install && ../node_modules/.bin/tsx server.ts",
-        "test": "concurrently \"pnpm -r test\" \"pnpm run start\""
+        "start": "cd server && pnpm install && pnpm run start",
+        "dev": "cd server && pnpm install && pnpm run dev",
+        "test": "concurrently \"pnpm -r test\" \"pnpm run start\"",
+        "postinstall": "cd server && pnpm install"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "concurrently": "^8.2.2",
-        "tape": "^5.8.1",
-        "ts-node": "^10.4.0"
+        "concurrently": "^8.2.2"
     },
-    "packageManager": "pnpm@8.15.4+sha1.c85a4305534f76d461407b59277b954bac97b5c4",
-    "dependencies": {
-        "tsx": "^4.17.0"
-    }
+    "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
 }
