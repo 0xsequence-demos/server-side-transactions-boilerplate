@@ -3,7 +3,7 @@ a simple nodejs backend that relays transactions via the Sequence Transactions A
 
 ## Prerequisites
 - Git installed
-- Node version v20.0.0 installed and in use
+- Node version v22.6.0 installed and in use
 - Project cloned with `git clone https://github.com/0xsequence-demos/tx-manager/`
 
 ## How to run locally
@@ -24,14 +24,14 @@ Note: `tokenID` is passed to the call only if the contract address is an ERC1155
 
 ### Example ERC721 cURL
 ```shell
-curl -X POST http://localhost:3000/mint \
+curl -X POST http://localhost:3001/mint \
 -H "Content-Type: application/json" \
--d '{"evmAddress": "0xe6eB28398CCBe46aA505b62b96822c2Ce8DAABf4", "contractAddress":"0x9f00671530137a433d5a775698094e5c68aae996", "isERC1155": false, "amount": 1 }'
+-d '{"evmAddress": "0xe6eB28398CCBe46aA505b62b96822c2Ce8DAABf4", "chainHandle": "xr-sepolia", "contractAddress":"0x9f00671530137a433d5a775698094e5c68aae996", "isERC1155": false, "amount": 1 }'
 ```
 
 ### Example ERC1155 cURL 
 ```shell
-curl -X POST http://localhost:3000/mint \
+curl -X POST http://localhost:3001/mint \
 -H "Content-Type: application/json" \
--d '{"evmAddress": "<EVM_WALLET_ADDRESS>", "tokenID": "<TOKEN_ID>", "contractAddress":"<COLLECTIBLE_CONTRACT_ADDRESS>", "isERC1155": <true_OR_false>, "amount":<AMOUNT> }'
+-d '{"evmAddress": "<EVM_WALLET_ADDRESS>", "chainHandle":"<CHAIN_HANDLE>","tokenID": "<TOKEN_ID>", "contractAddress":"<COLLECTIBLE_CONTRACT_ADDRESS>", "isERC1155": <true_OR_false>, "amount":<AMOUNT> }'
 ```

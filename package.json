@@ -3,12 +3,8 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "start:client": "cd client && pnpm install && pnpm run dev",
-        "start:server:dev": "cd server && pnpm install && ./node_modules/.bin/nodemon server.ts",
-        "start:server": "cd server && pnpm install && tsx server.ts",
-        "start": "concurrently \"pnpm run start:server\" \"pnpm run start:client\"",
-        "start:dev": "concurrently \"pnpm run start:server:dev\" \"pnpm run start:client\"",
-        "test": "concurrently \"pnpm -r test\" \"pnpm run start:server:dev\""
+        "start": "cd server && pnpm install && ../node_modules/.bin/tsx server.ts",
+        "test": "concurrently \"pnpm -r test\" \"pnpm run start\""
     },
     "keywords": [],
     "author": "",

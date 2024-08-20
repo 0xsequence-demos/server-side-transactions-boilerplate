@@ -1,18 +1,20 @@
 import test from 'tape';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/mint';
+const PORT = 3001
+const BASE_URL = `http://localhost:${PORT}/mint`;
 
 const validPayload = {
   evmAddress: "0xe6eB28398CCBe46aA505b62b96822c2Ce8DAABf4",
   contractAddress: "0x9f00671530137a433d5a775698094e5c68aae996",
   isERC1155: false,
-  amount: 1
+  amount: 1,
+  chainHandle: 'xr-sepolia'
 };
 
 const checkServer = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/minterAddress');
+    const response = await axios.get(`http://localhost:${PORT}/minterAddress`);
     return response.status === 200;
   } catch (error) {
     return false;
@@ -142,6 +144,28 @@ const runTests = async () => {
       t.fail('Should fail with ERC1155 and false isERC1155');
     } catch (error) {
       t.pass('Failed with ERC1155 and false isERC1155 as expected');
+    }
+    t.end();
+  });
+
+  test('Tx Manager: No Chain Handle', async (t) => {
+    const { chainHandle, ...payload } = validPayload;
+    try {
+      await axios.post(BASE_URL, payload);
+      t.fail('Should fail without chainHandle');
+    } catch (error) {
+      t.pass('Failed without chainHandle as expected');
+    }
+    t.end();
+  });
+
+  test('Tx Manager: ERC1155 with incorrect network', async (t) => {
+    const payload = { ...validPayload, contractAddress: "0x9c4ef3a17b8760169cc4e9c0f4f32f6757f87880", chainHandle: 'mainet'};
+    try {
+      await axios.post(BASE_URL, payload);
+      t.fail('Should fail with bad network');
+    } catch (error) {
+      t.pass('Failed with bad network');
     }
     t.end();
   });

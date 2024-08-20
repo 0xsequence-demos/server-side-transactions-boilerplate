@@ -17,7 +17,7 @@ const isValidUint256 = (value: any) => {
     return /^\d+$/.test(value) && BigInt(value) >= 0n;
 };
 
-async function getContractBytecode(contractAddress: string) {
+async function getContractBytecode(provider: any, contractAddress: string) {
 	// storage slot consistent location where proxies store the address of the logic contract they delegate to
     const implementationSlot = "0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50";
     try {
@@ -29,15 +29,15 @@ async function getContractBytecode(contractAddress: string) {
     }
 }
 
-const isNotValidERC1155ContractAddress = async (contractAddress: string) => {
-	return await getContractBytecode(contractAddress) != '0x000000000000000000000000ec9bf99632c3e97d2e461d16f48fc6fde8591191'
+const isNotValidERC1155ContractAddress = async (provider: any, contractAddress: string) => {
+	return await getContractBytecode(provider, contractAddress) != '0x000000000000000000000000ec9bf99632c3e97d2e461d16f48fc6fde8591191'
 }
 
-const isNotValidERC721ContractAddress = async (contractAddress: string) => {
-	return await getContractBytecode(contractAddress) != '0x000000000000000000000000f625720cdd63a65a5b7b31e7d0e64ae1ce08e52c'
+const isNotValidERC721ContractAddress = async (provider: any, contractAddress: string) => {
+	return await getContractBytecode(provider, contractAddress) != '0x000000000000000000000000f625720cdd63a65a5b7b31e7d0e64ae1ce08e52c'
 }
 
-const PORT = 3000
+const PORT = 3001
 const app = express()
 
 const corsOptions = {
@@ -47,13 +47,13 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions))
 
-const chainConfig: NetworkConfig = findSupportedNetwork(process.env.CHAIN_HANDLE!)!
-const provider = new ethers.providers.StaticJsonRpcProvider({
-	url: chainConfig.rpcUrl
-})
-
-const getSigner = async () => {
+const getSigner = async (chainHandle: string) => {
 	try {
+		const chainConfig: NetworkConfig = findSupportedNetwork(chainHandle)!
+		const provider = new ethers.providers.StaticJsonRpcProvider({
+			url: chainConfig.rpcUrl
+		})
+
 		const walletEOA = new ethers.Wallet(process.env.EVM_PRIVATE_KEY!, provider);
 
 		// Create a single signer sequence wallet session
@@ -61,6 +61,7 @@ const getSigner = async () => {
 			signer: walletEOA,
 			projectAccessKey: process.env.PROJECT_ACCESS_KEY!
 		})
+
 		return session.account.getSigner(chainConfig.chainId)
 	} catch (err) {
 		console.error(`ERROR: ${err}`)
@@ -69,11 +70,11 @@ const getSigner = async () => {
 }
 
 // check to ensure Project Access Key & EVM Private Key is valid
-getSigner()
+getSigner('mainnet')
 
-const callContract = async (evmAddress: string, contractAddress: string, isERC1155: boolean, tokenID: string, amount: string): Promise<ethers.providers.TransactionResponse> => {
+const callContract = async (evmAddress: string, chainHandle: string, contractAddress: string, isERC1155: boolean, tokenID: string, amount: string): Promise<ethers.providers.TransactionResponse> => {
 	
-	const signer = await getSigner()
+	const signer = await getSigner(chainHandle)
 	
 	let collectibleInterface;
 	let data;
@@ -116,13 +117,26 @@ const callContract = async (evmAddress: string, contractAddress: string, isERC11
 
 app.post('/mint', async (req: any,res: any) => {
     try{
-        const { evmAddress, contractAddress, isERC1155, tokenID, amount } = req.body
+        const { evmAddress, chainHandle, contractAddress, isERC1155, tokenID, amount } = req.body
         
+		const chainConfig: NetworkConfig = findSupportedNetwork(chainHandle)!
+
+		const provider = new ethers.providers.StaticJsonRpcProvider({
+			url: chainConfig.rpcUrl
+		})
+
 		if (
 			!isValidEthereumAddress(evmAddress)
 		) 
 		{
 			return res.status(400).send({ error: "Invalid input parameters: 'evmAddress'" });
+		}
+
+		if(
+			!findSupportedNetwork(chainHandle)
+		)
+		{
+			return res.status(400).send({ error: "Invalid input parameters: 'chainHandle'" });
 		}
 
 		if(
@@ -146,15 +160,15 @@ app.post('/mint', async (req: any,res: any) => {
 			return res.status(400).send({ error: "Invalid input parameters: 'amount'" });
 		}
 
-		if(isERC1155 && await isNotValidERC1155ContractAddress(contractAddress)){
+		if(isERC1155 && await isNotValidERC1155ContractAddress(provider, contractAddress)){
 			return res.status(400).send({ error: "Invalid input parameters: 'contractAddress'" });
 		} 
 		
-		if(!isERC1155 && await isNotValidERC721ContractAddress(contractAddress)){
+		if(!isERC1155 && await isNotValidERC721ContractAddress(provider, contractAddress)){
 			return res.status(400).send({ error: "Invalid input parameters: 'contractAddress'" });
 		}
 
-		const result = await callContract(evmAddress, contractAddress, isERC1155, tokenID, String(amount))
+		const result = await callContract(evmAddress, chainHandle, contractAddress, isERC1155, tokenID, String(amount))
         
 		res.send({txHash: result.hash})
     }catch(err){
@@ -165,7 +179,7 @@ app.post('/mint', async (req: any,res: any) => {
 
 app.get('/minterAddress', async (req: any,res: any) => {
     try{
-        const signer = await getSigner()
+        const signer = await getSigner('mainnet')
         res.send({minterAddress: await signer.getAddress()})
     }catch(err){
         console.log(err)
