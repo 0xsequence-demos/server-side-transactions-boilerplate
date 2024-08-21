@@ -1,5 +1,5 @@
 {
-  "name": "template-nodejs-transactions-api-server",
+  "name": "tx-manager-boilerplate",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
