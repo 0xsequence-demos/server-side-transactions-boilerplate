@@ -7,7 +7,7 @@ a simple nodejs backend that relays transactions via the Sequence Transactions A
 - Project cloned with `git clone https://github.com/0xsequence-demos/tx-manager-boilerplate/`
 
 ## How to run locally
-1. `Update Server Configuration`: In `/server`, change `.env.example` to `.env` with `cp ./server/.env.example ./server/.env` and complete fields
+1. `Update Server Configuration`: Copy `.env.example` to `.env` with `cp .env.example .env` and complete fields
 - `EVM_PRIVATE_KEY`: Generate Ethereum private key as an Externally Owned Account (EOA) passed into a Relayer Wallet, for demo purposes you can obtain a private key from [here](https://sequence-ethauthproof-viewer.vercel.app/)
 - `PROJECT_ACCESS_KEY`: Use [this walkthrough](https://docs.sequence.xyz/solutions/builder/getting-started#claim-an-api-access-key) to obtain an access key 
 2. `Deploy Collectible`: Deploy an ERC721 contract with this [walkthrough](https://docs.sequence.xyz/solutions/collectibles/contracts/deploy-an-item-collection), and the obtained contract collectible contract address to be used in step 4
