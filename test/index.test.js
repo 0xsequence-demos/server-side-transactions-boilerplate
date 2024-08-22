@@ -34,6 +34,8 @@ const pollServer = async (interval = 2000) => {
   }
 };
 
+const wait = (ms) => new Promise((res) => setTimeout((res), ms))
+
 const runTests = async () => {
   await pollServer();
 
@@ -126,6 +128,7 @@ const runTests = async () => {
   });
 
   test('Tx Manager: Valid ERC1155', async (t) => {
+    await wait(1000)
     const payload = { ...validPayload, tokenID: 1025,contractAddress: "0x9c4ef3a17b8760169cc4e9c0f4f32f6757f87880", isERC1155: true };
     try {
       const response = await axios.post(BASE_URL, payload);
