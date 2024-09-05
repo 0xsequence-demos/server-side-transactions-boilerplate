@@ -6,7 +6,21 @@ a simple nodejs backend that relays transactions via the Sequence Transactions A
 - Node version v22.6.0 installed and in use
 - Project cloned with `git clone https://github.com/0xsequence-demos/tx-manager-boilerplate/`
 
-## How to run locally
+## Quickstart with Sequence CLI
+To quickly start using the Sequence CLI you can use the following command locally on your machine or on a server using the default environment variables for `EVM_PRIVATE_KEY` & `PROJECT_ACCESS_KEY`:
+
+```shell
+npx sequence-cli boilerplates create-tx-manager
+```
+
+Then mint an ERC721 collectible to your wallet by swapping out the `evmAddress` with your address in the following command:
+```shell
+curl -X POST http://localhost:3001/mint \
+-H "Content-Type: application/json" \
+-d '{"evmAddress": "<YOUR_WALLET_ADDRESS>", "chainHandle": "xr-sepolia", "contractAddress":"0x9f00671530137a433d5a775698094e5c68aae996", "isERC1155": false, "amount": 1 }'
+```
+
+## How to run locally with source
 1. `Update Server Configuration`: Copy `.env.example` to `.env` with `cp .env.example .env` and complete fields
 - `EVM_PRIVATE_KEY`: Generate Ethereum private key as an Externally Owned Account (EOA) passed into a Relayer Wallet, for demo purposes you can obtain a private key from [here](https://sequence-ethauthproof-viewer.vercel.app/)
 - `PROJECT_ACCESS_KEY`: Use [this walkthrough](https://docs.sequence.xyz/solutions/builder/getting-started#claim-an-api-access-key) to obtain an access key 
