@@ -102,4 +102,6 @@ app.post('/mint', async (req: any,res: any) => {
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
+    console.log(`Run the following command on a separate terminal to test the endpoint:`)
+    console.log(`curl -X POST http://localhost:${PORT}/mint -H "Content-Type: application/json" -d '{"walletAddress":"0x0365e0BcAd6D799b732ADB9673cB4C43688Bb450"}'`)
 })
