@@ -4,13 +4,13 @@ A simple nodejs backend that relays transactions via the Sequence Transactions A
 ## Prerequisites
 - git installed
 - node version v22.6.0 installed and in use
-- Project cloned with `git clone https://github.com/0xsequence-demos/tx-manager-boilerplate/`
+- Project cloned with `git clone https://github.com/0xsequence-demos/server-side-transactions-boilerplate/`
 
 ## Quickstart with Sequence CLI
 To quickly start using the Sequence CLI you can use the following command locally on your machine or on a server using the default environment variables for `EVM_PRIVATE_KEY` & `PROJECT_ACCESS_KEY`:
 
 ```shell
-npx sequence-cli boilerplates create-tx-manager
+npx sequence-cli boilerplates create-server-side-transactions
 ```
 
 Then mint an ERC721 collectible to your wallet by swapping out the `walletAddress` with your address in the following command:
