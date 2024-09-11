@@ -78,6 +78,9 @@ app.post('/mint', async (req: any,res: any) => {
         }
 
         // Send the transaction
+        // If you are on a testnet, gas will be sponsored by Sequence
+        // For mainnet contracts, make sure to import your contract at sequence.build
+        // and sponsor it using the Gas Sponsorship feature
         let result;
 
         try {
