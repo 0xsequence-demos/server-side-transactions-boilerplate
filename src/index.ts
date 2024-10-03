@@ -18,9 +18,8 @@ const isValidEthereumAddress = (address: any) => {
 const getSigner = async (chainHandle: string) => {
     try {
         const chainConfig: NetworkConfig = findSupportedNetwork(chainHandle)!
-        const provider = new ethers.providers.StaticJsonRpcProvider({
-            url: chainConfig.rpcUrl
-        })
+
+        const provider = new ethers.JsonRpcProvider(chainConfig.rpcUrl)
 
         const walletEOA = new ethers.Wallet(process.env.EVM_PRIVATE_KEY!, provider);
 
@@ -63,7 +62,7 @@ app.post('/mint', async (req: any,res: any) => {
 
         // Standard interface for an ERC721 contract deployed via Sequence Builder
         // If you are using an ERC1155 or a different contract, you will need to update this interface
-        collectibleInterface = new ethers.utils.Interface([
+        collectibleInterface = new ethers.Interface([
             'function mint(address to, uint256 amount)'
         ])
 
