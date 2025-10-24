@@ -14,14 +14,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@0xsequence/auth": "^2.1.7",
-    "@0xsequence/network": "^2.1.7",
+    "@0xsequence/auth": "^2.3.32",
+    "@0xsequence/network": "^2.3.32",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ethers": "6.13.2",
     "express": "^4.19.2",
-    "typescript": "^5.5.4",
-    "tsx": "^4.17.0"
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
